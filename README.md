@@ -68,6 +68,10 @@ Total: 2 files modified, 795KB saved
 - Truncates and appends `... [line truncated: 98765 bytes]`
 - Faster but breaks JSON validity for affected lines
 
+## Agent Skill
+
+An OpenClaw/Codex skill is included in `skill/SKILL.md` for AI agents to learn when and how to use this tool.
+
 ## License
 
 MIT
