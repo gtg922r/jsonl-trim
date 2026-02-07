@@ -10,10 +10,79 @@ Guidelines for AI agents contributing to this project.
 
 ```
 src/
-└── main.rs    # Everything lives here (it's a simple tool)
+└── main.rs    # Core implementation + tests
 ```
 
 Single-file architecture is intentional — this is a focused utility, not a framework.
+
+## Code Style
+
+Follow the [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/) and standard Rust idioms.
+
+### Formatting & Linting
+
+```bash
+# Format code (required before commit)
+cargo fmt
+
+# Lint (must pass with no warnings)
+cargo clippy -- -D warnings
+```
+
+### Style Rules
+
+- Use `rustfmt` defaults (no custom rustfmt.toml)
+- All public items need doc comments (`///`)
+- Prefer `?` over `.unwrap()` in fallible code
+- Use `thiserror` or `anyhow` for errors, not strings
+- Keep functions small and focused
+
+## Commit Convention
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+### Types
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation only
+- `style`: Formatting, no code change
+- `refactor`: Code change that neither fixes nor adds
+- `test`: Adding or updating tests
+- `chore`: Build, CI, tooling
+
+### Examples
+
+```
+feat(cli): add --backup flag for preserving originals
+fix(truncate): handle empty string fields correctly
+test(string-mode): add edge cases for nested arrays
+docs(readme): add installation from crates.io
+```
+
+## Testing
+
+```bash
+# Run all tests
+cargo test
+
+# Run with output
+cargo test -- --nocapture
+```
+
+Tests live in `src/main.rs` under `#[cfg(test)]` module. Cover:
+- String truncation (nested objects, arrays, edge cases)
+- Line truncation
+- File discovery (glob patterns)
+- JSON validity after truncation
 
 ## Key Design Decisions
 
@@ -32,10 +101,11 @@ Single-file architecture is intentional — this is a focused utility, not a fra
 
 ## Making Changes
 
-1. Keep it simple — resist adding features that don't serve the core use case
-2. Test with real session files from `~/.openclaw/sessions/`
-3. Performance matters less than correctness
-4. Verbose output should be human-readable
+1. Run `cargo fmt` before committing
+2. Run `cargo clippy -- -D warnings` — fix all warnings
+3. Run `cargo test` — all tests must pass
+4. Use conventional commit messages
+5. Keep it simple — resist features that don't serve the core use case
 
 ## Building
 
@@ -44,10 +114,3 @@ cargo build --release
 ```
 
 Binary goes to `./target/release/jsonl-trim`.
-
-## Testing Locally
-
-```bash
-# Dry run on real data
-./target/release/jsonl-trim ~/.openclaw/sessions --pattern "*.out.json" --string-max 10000 --dry-run --verbose
-```
