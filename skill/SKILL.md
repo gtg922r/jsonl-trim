@@ -15,12 +15,15 @@ Trim oversized lines and string fields in JSONL files.
 
 ## Installation
 
-```bash
-# If binary exists
-/path/to/jsonl-trim --help
+Binary is installed at `~/.local/bin/jsonl-trim` (already in PATH on Atlas).
 
-# Or build from source
-cd /path/to/jsonl-trim && cargo build --release
+```bash
+jsonl-trim --version
+```
+
+To rebuild from source:
+```bash
+cd ~/jsonl-trim && cargo build --release
 ```
 
 ## Usage
