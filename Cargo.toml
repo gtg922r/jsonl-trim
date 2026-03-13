@@ -1,6 +1,6 @@
 [package]
 name = "jsonl-trim"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2024"
 description = "Trim oversized lines and string fields in JSONL files"
 license = "MIT"
